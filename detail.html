@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Détails de la météo</title>
+    <style>
+      /* Ajoutez votre CSS ici */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        margin: 0;
+        padding: 20px;
+        background-color: #3498db;
+        color: #fff;
+        text-align: center;
+      }
+      .weather-card {
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+      }
+      .weather-card h2 {
+        margin-top: 0;
+      }
+      .weather-card p {
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Détails de la météo pour <span id="day-name"></span></h1>
+    <div class="weather-card">
+      <h2>Météo</h2>
+      <p><strong>Température :</strong> <span id="temperature"></span></p>
+      <p><strong>Humidité :</strong> <span id="humidity"></span></p>
+      <p><strong>Pression atmosphérique :</strong> <span id="pressure"></span></p>
+      <p><strong>Temps :</strong> <span id="description"></span></p>
+    </div>
+    <script>
+      // Ajoutez votre JavaScript ici pour récupérer les informations spécifiques à chaque jour
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const dayName = urlParams.get('dayName');
+      const weatherData = JSON.parse(localStorage.getItem('weatherData'));
+      const dayData = weatherData.find(item => new Date(item.dt * 1000).toLocaleDateString('fr-FR', { weekday: 'long' }) === dayName);
+      
+      const dayNameElement = document.getElementById('day-name');
+      dayNameElement.textContent = dayName;
+      
+      const temperatureElement = document.getElementById('temperature');
+      temperatureElement.textContent = `${Math.round(dayData.main.temp)}°C`;
+      
+      const humidityElement = document.getElementById('humidity');
+      humidityElement.textContent = `${dayData.main.humidity}%`;
+      
+      const pressureElement = document.getElementById('pressure');
+      pressureElement.textContent = `${dayData.main.pressure} hPa`;
+      
+      const descriptionElement = document.getElementById('description');
+      descriptionElement.textContent = dayData.weather[0].description;
+    </script>
+ 
