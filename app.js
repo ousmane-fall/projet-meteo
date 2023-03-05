@@ -31,22 +31,4 @@ fetch('https://api.openweathermap.org/data/2.5/forecast?q=Paris&units=metric&app
   })
   .catch(error => console.error(error));
 
-function createDetailedCard(data) {
-  const { dt, main: { temp, feels_like, humidity, pressure }, weather: [ { description, icon } ] } = data;
-  const day = new Date(dt * 1000).toLocaleDateString('fr-FR', { weekday: 'long' });
-  const card = document.createElement('div');
-  card.classList.add('detailed-card');
-  card.innerHTML = `
-    <h2>${day}</h2>
-    <p><img src="https://openweathermap.org/img/w/${icon}.png" alt="${description}"> ${description}</p>
-    <p>Temperature : ${Math.round(temp)}°C</p>
-    <p>Ressenti : ${Math.round(feels_like)}°C</p>
-    <p>Humidite : ${humidity}%</p>
-    <p>Pression : ${pressure} hPa</p>
-  `;
-  const closeButton = document.createElement('button');
-  closeButton.textContent = 'Fermer';
-  closeButton.addEventListener('click', () => card.remove());
-  card.appendChild(closeButton);
-  document.body.appendChild(card);
-}
+
